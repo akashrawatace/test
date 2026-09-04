@@ -1,17 +1,34 @@
 name: encode-ios-alpha
 on: workflow_dispatch
+
 jobs:
   encode:
     runs-on: macos-latest
     steps:
-      - run: brew install ffmpeg
-      - run: pip3 install gdown --break-system-packages
+      - name: Install ffmpeg
+        run: brew install ffmpeg
+
+      - name: Install gdown
+        run: pip3 install gdown --break-system-packages
+
       - name: Download source video
         run: gdown "1-SMwTlwDNLWlnaBVJqJkgPSfU--cjjhs" -O source.mov
+
       - name: Verify download
         run: ls -lh source.mov && file source.mov
-      - run: ffmpeg -i source.mov -vf scale=1080:-2 -c:v hevc_videotoolbox -alpha_quality 0.9 -vtag hvc1 -an ios_alpha.mov
-      - uses: actions/upload-artifact@v4
+
+      - name: Encode test variants
+        run: |
+          ffmpeg -i source.mov -t 13.5 -vf scale=1080:-2 -c:v hevc_videotoolbox -q:v 65 -alpha_quality 0.7 -vtag hvc1 -an ios_1080_q65_a7.mov
+          ffmpeg -i source.mov -t 13.5 -vf scale=720:-2  -c:v hevc_videotoolbox -q:v 65 -alpha_quality 0.7 -vtag hvc1 -an ios_720_q65_a7.mov
+          ffmpeg -i source.mov -t 13.5 -vf scale=720:-2  -c:v hevc_videotoolbox -q:v 55 -alpha_quality 0.5 -vtag hvc1 -an ios_720_q55_a5.mov
+          ffmpeg -i source.mov -t 13.5 -vf scale=540:-2  -c:v hevc_videotoolbox -q:v 55 -alpha_quality 0.5 -vtag hvc1 -an ios_540_q55_a5.mov
+
+      - name: Show file sizes
+        run: ls -lh ios_*.mov
+
+      - name: Upload variants
+        uses: actions/upload-artifact@v4
         with:
-          name: ios_alpha
-          path: ios_alpha.mov
+          name: ios_variants
+          path: ios_*.mov
