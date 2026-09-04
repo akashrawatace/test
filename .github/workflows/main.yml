@@ -5,8 +5,11 @@ jobs:
     runs-on: macos-latest
     steps:
       - run: brew install ffmpeg
+      - run: pip3 install gdown
       - name: Download source video
-        run: curl -L "https://drive.google.com/file/d/1-SMwTlwDNLWlnaBVJqJkgPSfU--cjjhs/view?usp=sharing" -o source.mov
+        run: gdown --fuzzy "https://drive.google.com/file/d/1-SMwTlwDNLWlnaBVJqJkgPSfU--cjjhs/view?usp=sharing" -O source.mov
+      - name: Verify download
+        run: ls -lh source.mov && file source.mov
       - run: ffmpeg -i source.mov -vf scale=1080:-2 -c:v hevc_videotoolbox -alpha_quality 0.9 -vtag hvc1 -an ios_alpha.mov
       - uses: actions/upload-artifact@v4
         with:
