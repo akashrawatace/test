@@ -5,7 +5,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - run: brew install ffmpeg
-      - run: pip3 install gdown
+      - run: pip3 install gdown --break-system-packages
       - name: Download source video
         run: gdown --fuzzy "https://drive.google.com/file/d/1-SMwTlwDNLWlnaBVJqJkgPSfU--cjjhs/view?usp=sharing" -O source.mov
       - name: Verify download
