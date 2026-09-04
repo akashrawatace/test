@@ -1,0 +1,14 @@
+# .github/workflows/encode-alpha.yml
+name: encode-ios-alpha
+on: workflow_dispatch
+jobs:
+  encode:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: brew install ffmpeg
+      - run: ffmpeg -i GlobeCoins_ProRes4444_Transparent.mov -vf scale=1080:-2 -c:v hevc_videotoolbox -alpha_quality 0.9 -vtag hvc1 -an ios_alpha.mov
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios_alpha
+          path: ios_alpha.mov
