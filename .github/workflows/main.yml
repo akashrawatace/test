@@ -19,10 +19,10 @@ jobs:
 
       - name: Encode 1080p bitrate ladder
         run: |
-          ffmpeg -i source.mov -t 13.5 -vf scale=1080:-2,fps=24 -c:v hevc_videotoolbox -b:v 3000k -alpha_quality 0.7 -vtag hvc1 -an ios_1080_3000k.mov
-          ffmpeg -i source.mov -t 13.5 -vf scale=1080:-2,fps=24 -c:v hevc_videotoolbox -b:v 2000k -alpha_quality 0.6 -vtag hvc1 -an ios_1080_2000k.mov
-          ffmpeg -i source.mov -t 13.5 -vf scale=1080:-2,fps=24 -c:v hevc_videotoolbox -b:v 1200k -alpha_quality 0.5 -vtag hvc1 -an ios_1080_1200k.mov
-          ffmpeg -i source.mov -t 13.5 -vf scale=1080:-2,fps=24 -c:v hevc_videotoolbox -b:v 800k  -alpha_quality 0.4 -vtag hvc1 -an ios_1080_800k.mov
+          ffmpeg -i source.mov -t 14 -vf scale=1080:-2,fps=24 -c:v hevc_videotoolbox -b:v 4000k -alpha_quality 0.7 -vtag hvc1 -an ios_1080_4000k.mov
+          ffmpeg -i source.mov -t 14 -vf scale=1080:-2,fps=24 -c:v hevc_videotoolbox -b:v 3800k -alpha_quality 0.6 -vtag hvc1 -an ios_1080_3800k.mov
+          ffmpeg -i source.mov -t 14 -vf scale=1080:-2,fps=24 -c:v hevc_videotoolbox -b:v 3500k -alpha_quality 0.5 -vtag hvc1 -an ios_1080_3500k.mov
+          ffmpeg -i source.mov -t 14 -vf scale=1080:-2,fps=24 -c:v hevc_videotoolbox -b:v 3200k  -alpha_quality 0.4 -vtag hvc1 -an ios_1080_3200k.mov
 
       - name: Show file sizes
         run: ls -lh ios_*.mov
